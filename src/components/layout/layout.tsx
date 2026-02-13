@@ -6,7 +6,6 @@ import ProfileMenu from './profile-menu';
 
 const Layout = () => {
 	const nav = useNavigate();
-
 	return (
 		<>
 			<AppBar position="relative" sx={{ background: COLOR_CODES.white }}>

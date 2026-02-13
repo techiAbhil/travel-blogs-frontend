@@ -1,9 +1,11 @@
 import {
 	Alert,
 	AlertTitle,
+	Avatar,
 	Button,
 	Card,
 	CardContent,
+	CardHeader,
 	CardMedia,
 	Grid,
 	Typography,
@@ -14,8 +16,10 @@ import axios from 'axios';
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import DefaultImg from '../../assets/No_Image.jpg';
-import CustomCarousel from '../../components/image-slider/image-slider';
+import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
+import { Carousel } from 'react-responsive-carousel';
 import { getUserDetaillsFromToken } from '../../utils/helper';
+import ProfileIcon from '@mui/icons-material/AccountCircle';
 
 interface IPost {
 	place_name: string;
@@ -69,17 +73,6 @@ export default function AllPosts() {
 		}
 	}, []);
 
-	const deleteBlogHandler = async (blog_id: number) => {
-		try {
-			await axios.delete(`/app/blog/${blog_id}`);
-			const newRows = rows.filter((r) => r.blog_id !== blog_id);
-			setRows(newRows);
-			setSuccessMsg('Blog has been successfully deleted!');
-		} catch {
-			setErrorMsg('Could not delete the blog');
-		}
-	};
-
 	return (
 		<>
 			{/* Hero unit */}
@@ -97,90 +90,71 @@ export default function AllPosts() {
 						</Typography>
 					)}
 					{rows.length > 0 && (
-						<Grid container spacing={2} pt={5}>
+						<Grid
+							container
+							spacing={2}
+							gap={5}
+							justifyContent={'center'}
+							mt={5}
+						>
 							{rows.map((row) => {
 								return (
-									<Grid key={row.blog_id} item xs={4}>
-										<Card
-											sx={{
-												maxWidth: 345,
-												height: 450,
-												background: '#e2faec',
-												padding: 2,
-											}}
-										>
-											<Box
-												display={'flex'}
-												justifyContent="center"
-												alignItems={'center'}
+									<Card
+										key={row.blog_id}
+										sx={{
+											background: '#e2faec',
+											width: '400px',
+										}}
+									>
+										<CardHeader
+											avatar={
+												row.users?.profile_pic ? (
+													<Avatar
+														alt="Remy Sharp"
+														src={`${import.meta.env.VITE_ASSETS_URL}profile/${row.users.profile_pic}`}
+														sx={{ width: 56, height: 56 }}
+													/>
+												) : (
+													<ProfileIcon fontSize="large" />
+												)
+											}
+											title={row.place_name}
+											subheader={`By ${row?.users?.first_name} ${row?.users?.last_name}`}
+										/>
+										<Carousel autoPlay>
+											{row.pictures && row.pictures.length > 0
+												? row.pictures
+														.split(', ')
+														?.map((picName) => (
+															<CardMedia
+																key={picName}
+																component="img"
+																height="250"
+																image={`${import.meta.env.VITE_ASSETS_URL}images/${
+																	picName
+																}`}
+																alt={picName}
+															/>
+														))
+												: [
+														<div>
+															<img
+																key={'default_image'}
+																src={DefaultImg}
+																style={{ height: '200px' }}
+															/>
+														</div>,
+													]}
+										</Carousel>
+										<CardContent>
+											<Typography
+												variant="body2"
+												sx={{ color: 'text.secondary' }}
 											>
-												<CustomCarousel>
-													{row.pictures && row.pictures.length > 0
-														? row.pictures.split(', ')?.map((picName) => (
-																<img
-																	key={picName}
-																	src={`${import.meta.env.VITE_ASSETS_URL}images/${
-																		picName
-																	}`}
-																	alt={picName}
-																	style={{
-																		maxWidth: '50%',
-																		height: 'auto',
-																	}}
-																/>
-															))
-														: [
-																<img
-																	key={'default_image'}
-																	src={DefaultImg}
-																	style={{ height: '200px' }}
-																/>,
-															]}
-												</CustomCarousel>
-											</Box>
-											<CardContent>
-												<Typography gutterBottom variant="h6" component="p">
-													{row.place_name}
-												</Typography>
-
-												<Typography variant="body2" color="text.secondary">
-													{row.review}
-												</Typography>
-												<Typography
-													gutterBottom
-													variant="caption"
-													component="p"
-													align="right"
-													pt={1}
-												>
-													- By {row?.users?.first_name} {row?.users?.last_name}
-												</Typography>
-											</CardContent>
-											{row.users?.user_id === userDetails?.user_id && (
-												<CardContent
-													style={{
-														display: 'flex',
-														gap: '10px',
-														justifyContent: 'center',
-													}}
-												>
-													<Button
-														variant="contained"
-														onClick={() => nav(`/posts/update/${row.blog_id}`)}
-													>
-														Edit Blog
-													</Button>
-													<Button
-														variant="contained"
-														color="error"
-														onClick={() => deleteBlogHandler(row.blog_id)}
-													>
-														Delete Blog
-													</Button>
-												</CardContent>
-											)}
-										</Card>
-									</Grid>
+												{row.review}
+											</Typography>
+										</CardContent>
+									</Card>
 								);
 							})}
 						</Grid>

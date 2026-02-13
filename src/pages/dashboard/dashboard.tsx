@@ -2,6 +2,7 @@ import {
 	Alert,
 	AlertTitle,
 	Button,
+	CardContent,
 	Table,
 	TableBody,
 	TableCell,
@@ -17,7 +18,6 @@ import axios from 'axios';
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import AddPost from './add-post';
-import DeletePost from './delete-post';
 
 export interface IPost {
 	place_name: string;
@@ -69,6 +69,17 @@ export default function Dashboard() {
 			setErrorMsg('Something went wrong while adding post...!');
 		}
 	}, []);
+
+	const deleteBlogHandler = async (blog_id: number) => {
+		try {
+			await axios.delete(`/app/blog/${blog_id}`);
+			const newRows = rows.filter((r) => r.blog_id !== blog_id);
+			setRows(newRows);
+			setSuccessMsg('Blog has been successfully deleted!');
+		} catch {
+			setErrorMsg('Could not delete the blog');
+		}
+	};
 
 	return (
 		<>
@@ -130,7 +141,7 @@ export default function Dashboard() {
 										<TableCell>Blog ID</TableCell>
 										<TableCell align="center">Place</TableCell>
 										<TableCell align="center">Review</TableCell>
-										<TableCell align="center">Pictures</TableCell>
+										<TableCell align="center">Actions</TableCell>
 									</TableRow>
 								</TableHead>
 								<TableBody>
@@ -147,9 +158,27 @@ export default function Dashboard() {
 											</TableCell>
 											<TableCell align="center">{row.review}</TableCell>
 											<TableCell align="center">
-												{row.pictures
-													? 'There are some pictures'
-													: 'No pictures uploaded'}
+												<CardContent
+													style={{
+														display: 'flex',
+														gap: '10px',
+														justifyContent: 'center',
+													}}
+												>
+													<Button
+														variant="outlined"
+														onClick={() => nav(`/posts/update/${row.blog_id}`)}
+													>
+														Edit Blog
+													</Button>
+													<Button
+														variant="outlined"
+														color="error"
+														onClick={() => deleteBlogHandler(row.blog_id)}
+													>
+														Delete Blog
+													</Button>
+												</CardContent>
 											</TableCell>
 										</TableRow>
 									))}

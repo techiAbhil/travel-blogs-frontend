@@ -1,6 +1,6 @@
 import ProfileIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { Box, Button, Modal, Typography } from '@mui/material';
+import { Avatar, Box, Button, Modal, Typography } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -8,6 +8,7 @@ import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
 import AppContext from '../../hooks/app-context';
 import { COLOR_CODES } from '../../utils/constants';
+import { getUserDetaillsFromToken } from '../../utils/helper';
 
 export default function ProfileMenu() {
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -22,6 +23,7 @@ export default function ProfileMenu() {
 	};
 	const [isOpenModal, setIsOpenModal] = React.useState<boolean>(false);
 	const { dispatch } = React.useContext(AppContext);
+	const userDetails = getUserDetaillsFromToken();
 
 	return (
 		<div>
@@ -33,7 +35,15 @@ export default function ProfileMenu() {
 				onClick={handleClick}
 				aria-label="Profile Icon"
 			>
-				<ProfileIcon fontSize="large" />
+				{userDetails?.profile_pic ? (
+					<Avatar
+						alt="Remy Sharp"
+						src={`${import.meta.env.VITE_ASSETS_URL}profile/${userDetails.profile_pic}`}
+						sx={{ width: 56, height: 56 }}
+					/>
+				) : (
+					<ProfileIcon fontSize="large" />
+				)}
 			</IconButton>
 			<Menu
 				id="basic-menu"
