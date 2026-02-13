@@ -78,88 +78,75 @@ export default function AllPosts() {
 			{/* Hero unit */}
 			<Box
 				sx={{
-					bgcolor: 'background.paper',
 					pt: 2,
 					pb: 6,
 				}}
 			>
-				<Container>
-					{rows.length === 0 && (
-						<Typography variant="h3" color="Highlight">
-							{showLoader ? 'Loading, please wait...!' : 'No posts are there!'}
-						</Typography>
-					)}
-					{rows.length > 0 && (
-						<Grid
-							container
-							spacing={2}
-							gap={5}
-							justifyContent={'center'}
-							mt={5}
-						>
-							{rows.map((row) => {
-								return (
-									<Card
-										key={row.blog_id}
-										sx={{
-											background: '#e2faec',
-											width: '400px',
-										}}
-									>
-										<CardHeader
-											avatar={
-												row.users?.profile_pic ? (
-													<Avatar
-														alt="Remy Sharp"
-														src={`${import.meta.env.VITE_ASSETS_URL}profile/${row.users.profile_pic}`}
-														sx={{ width: 56, height: 56 }}
-													/>
-												) : (
-													<ProfileIcon fontSize="large" />
-												)
-											}
-											title={row.place_name}
-											subheader={`By ${row?.users?.first_name} ${row?.users?.last_name}`}
-										/>
-										<Carousel autoPlay>
-											{row.pictures && row.pictures.length > 0
-												? row.pictures
-														.split(', ')
-														?.map((picName) => (
-															<CardMedia
-																key={picName}
-																component="img"
-																height="250"
-																image={`${import.meta.env.VITE_ASSETS_URL}images/${
-																	picName
-																}`}
-																alt={picName}
-															/>
-														))
-												: [
-														<div>
-															<img
-																key={'default_image'}
-																src={DefaultImg}
-																style={{ height: '200px' }}
-															/>
-														</div>,
-													]}
-										</Carousel>
-										<CardContent>
-											<Typography
-												variant="body2"
-												sx={{ color: 'text.secondary' }}
-											>
-												{row.review}
-											</Typography>
-										</CardContent>
-									</Card>
-								);
-							})}
-						</Grid>
-					)}
-				</Container>
+				{rows.length === 0 && (
+					<Typography variant="h3" color="Highlight">
+						{showLoader ? 'Loading, please wait...!' : 'No posts are there!'}
+					</Typography>
+				)}
+				{rows.length > 0 && (
+					<Grid container spacing={2} gap={3} justifyContent={'center'} mt={5}>
+						{rows.map((row) => {
+							return (
+								<Card
+									key={row.blog_id}
+									sx={{
+										background: '#e2faec',
+										width: '400px',
+									}}
+								>
+									<CardHeader
+										avatar={
+											row.users?.profile_pic ? (
+												<Avatar
+													alt="Remy Sharp"
+													src={`${import.meta.env.VITE_ASSETS_URL}profile/${row.users.profile_pic}`}
+													sx={{ width: 56, height: 56 }}
+												/>
+											) : (
+												<ProfileIcon fontSize="large" />
+											)
+										}
+										title={row.place_name}
+										subheader={`By ${row?.users?.first_name} ${row?.users?.last_name}`}
+									/>
+									<Carousel autoPlay>
+										{row.pictures && row.pictures.length > 0
+											? row.pictures
+													.split(', ')
+													?.map((picName) => (
+														<CardMedia
+															key={picName}
+															component="img"
+															height="250"
+															image={`${import.meta.env.VITE_ASSETS_URL}images/${
+																picName
+															}`}
+															alt={picName}
+														/>
+													))
+											: [
+													<CardMedia
+														key={'default_image'}
+														height={250}
+														component={'img'}
+														image={DefaultImg}
+													/>,
+												]}
+									</Carousel>
+									<CardContent>
+										<Typography variant="body2" sx={{ color: 'text.primary' }}>
+											{row.review}
+										</Typography>
+									</CardContent>
+								</Card>
+							);
+						})}
+					</Grid>
+				)}
 			</Box>
 
 			{error && (
