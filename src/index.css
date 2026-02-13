@@ -1,0 +1,23 @@
+:root {
+	--light-grey: #e4e6ef;
+	--white: #ffffff;
+	--dark-grey: #808080;
+	--tab-color: #098232;
+	--tab-btn-color: #24c058;
+	--table-bg-color: #f5fef8;
+	--text-error: #f44336;
+}
+
+body {
+	font-family: 'Comfortaa', cursive;
+	font-family: 'Poppins', sans-serif;
+}
+
+.global-search .MuiPaper-root {
+	box-shadow: none;
+	border: 1px solid #b2b5c8;
+}
+
+.error-message {
+	color: var(--text-error);
+}
