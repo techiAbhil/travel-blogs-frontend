@@ -42,7 +42,7 @@ const BlogPicsUpload = ({
 			try {
 				setShowLoader(true);
 				const formData = new FormData();
-				formData.append('pictures', acceptedFiles[0]);
+				acceptedFiles.forEach((file) => formData.append('pictures', file));
 
 				const data: any = await axios.put(
 					`/app/blog/pictures/${blog_id}`,

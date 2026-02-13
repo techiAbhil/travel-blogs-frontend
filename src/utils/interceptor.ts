@@ -12,7 +12,7 @@ axios.interceptors.request.use((req: any) => {
 		'content-type': 'application/json',
 		'Access-Control-Allow-Methods': 'GET, POST, PUT, PATCH, DELETE',
 	};
-	if (imageHandlingAPIRoutes.includes(req.url)) {
+	if (imageHandlingAPIRoutes.some((r) => req.url.startsWith(r))) {
 		req.headers['content-type'] = 'multipart/form-data';
 	}
 	if (req.url.startsWith('/app/')) {
