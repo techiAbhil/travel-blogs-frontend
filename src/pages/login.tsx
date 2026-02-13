@@ -19,6 +19,7 @@ export default function Login() {
 	const { dispatch } = React.useContext(AppContext);
 	const submitHandler = React.useCallback(async (values: any) => {
 		try {
+			setShowLoader(true);
 			const data: any = await axios.post('/auth/login', values);
 			setShowLoader(false);
 			if (data.success) {

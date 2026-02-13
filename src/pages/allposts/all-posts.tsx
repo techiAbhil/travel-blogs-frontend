@@ -116,17 +116,19 @@ export default function AllPosts() {
 											>
 												<CustomCarousel>
 													{row.pictures && row.pictures.length > 0
-														? row.pictures
-																.split(', ')
-																?.map((picName) => (
-																	<img
-																		key={picName}
-																		src={`${import.meta.env.VITE_ASSETS_URL}images/${
-																			picName
-																		}`}
-																		alt={picName}
-																	/>
-																))
+														? row.pictures.split(', ')?.map((picName) => (
+																<img
+																	key={picName}
+																	src={`${import.meta.env.VITE_ASSETS_URL}images/${
+																		picName
+																	}`}
+																	alt={picName}
+																	style={{
+																		maxWidth: '50%',
+																		height: 'auto',
+																	}}
+																/>
+															))
 														: [
 																<img
 																	key={'default_image'}
