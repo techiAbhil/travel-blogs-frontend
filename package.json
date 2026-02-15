@@ -1,35 +1,31 @@
 {
-  "name": "react-for-node-tuts",
+  "name": "antigravity",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "vite build",
+    "lint": "eslint .",
     "preview": "vite preview"
   },
   "dependencies": {
-    "@emotion/react": "^11.10.6",
-    "@emotion/styled": "^11.10.6",
-    "@fontsource/roboto": "^4.5.8",
-    "@mui/icons-material": "^5.11.11",
-    "@mui/material": "^5.11.13",
-    "axios": "^1.3.4",
-    "formik": "^2.2.9",
-    "jwt-decode": "^3.1.2",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-dropzone": "^14.2.3",
-    "react-responsive-carousel": "^3.2.23",
-    "react-router-dom": "^6.9.0",
-    "react-table": "^7.8.0",
-    "yup": "^1.0.2"
+    "axios": "^1.13.5",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-dropzone": "^15.0.0",
+    "react-icons": "^5.5.0",
+    "react-router-dom": "^7.13.0"
   },
   "devDependencies": {
-    "@types/react": "^18.0.28",
-    "@types/react-dom": "^18.0.11",
-    "@vitejs/plugin-react": "^3.1.0",
-    "typescript": "^4.9.3",
-    "vite": "^4.2.0"
+    "@eslint/js": "^9.39.1",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^5.1.1",
+    "eslint": "^9.39.1",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "eslint-plugin-react-refresh": "^0.4.24",
+    "globals": "^16.5.0",
+    "vite": "^7.3.1"
   }
 }
