@@ -26,10 +26,12 @@ const BlogList = () => {
     const [sortOrder, setSortOrder] = useState('asc'); // 'asc' or 'desc'
     const [searchTerm, setSearchTerm] = useState('');
 
-    const fetchBlogs = async () => {
+    const fetchBlogs = async (queryString) => {
         setLoading(true);
         try {
-            const response = await api.get('/app/blog');
+            let url = '/app/blog';
+            if (queryString) url += queryString;
+            const response = await api.get(url);
             setBlogs(response.data.blogs);
         } catch (err) {
             console.error("Error fetching blogs", err);
@@ -95,6 +97,14 @@ const BlogList = () => {
             fetchBlogs();
         }
         setIsAddOpen(false);
+    }
+
+    const applyFiltersHandler = () => {
+        let queryString = '?';
+        if (filterType) queryString += `filterType=${filterType}`;
+        if (sortOrder) queryString += `&sortOrder=${sortOrder}`;
+        if (searchTerm) queryString += `&searchTerm=${searchTerm}`;
+        fetchBlogs(queryString);
     }
 
 
@@ -203,9 +213,7 @@ const BlogList = () => {
                         </div>
 
                         <button
-                            onClick={() => {
-                                // No-op, just for visual feedback or we could trigger a toast "Applied"
-                            }}
+                            onClick={applyFiltersHandler}
                             style={{
                                 width: '100%',
                                 padding: '0.8rem',
