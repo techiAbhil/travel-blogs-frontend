@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { AuthProvider } from './context/AuthContext';
 import Navbar from './components/Navbar';
 import ProtectedRoute from './components/ProtectedRoute';
-import { Login, Register, BlogList, Profile } from './pages';
+import { Login, Register, BlogList, Profile, Booking } from './pages';
 import './App.css';
 
 function App() {
@@ -32,6 +32,14 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <Profile />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/booking"
+                element={
+                  <ProtectedRoute>
+                    <Booking />
                   </ProtectedRoute>
                 }
               />

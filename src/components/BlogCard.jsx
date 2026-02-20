@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { FaEdit, FaTrash, FaCamera, FaChevronLeft, FaChevronRight, FaMapMarkerAlt } from 'react-icons/fa';
 // Simple user avatar placeholder if none provided
 const UserAvatar = ({ name, url }) => {
@@ -18,6 +19,7 @@ const UserAvatar = ({ name, url }) => {
 
 const BlogCard = ({ blog, onEdit, onDelete, onUpload, isOwner }) => {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
+    const navigate = useNavigate();
 
     const nextImage = () => {
         if (blog.pictures && blog.pictures.split(',').length > 0) {
@@ -82,20 +84,37 @@ const BlogCard = ({ blog, onEdit, onDelete, onUpload, isOwner }) => {
                 )}
             </div>
 
-            {/* Actions (Only if owner) */}
-            {isOwner && (
-                <div style={{ padding: '12px 16px', display: 'flex', gap: '16px', borderBottom: '1px solid var(--border)' }}>
-                    <button onClick={() => onEdit(blog)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-main)', fontSize: '1.2rem' }} title="Edit Blog">
-                        <FaEdit />
-                    </button>
-                    <button onClick={() => onUpload(blog)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-main)', fontSize: '1.2rem' }} title="Upload Images">
-                        <FaCamera />
-                    </button>
-                    <button onClick={() => onDelete(blog)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--primary)', fontSize: '1.2rem', marginLeft: 'auto' }} title="Delete Blog">
-                        <FaTrash />
-                    </button>
+            {/* Actions */}
+            <div style={{ padding: '8px 16px', display: 'flex', alignItems: 'center', borderBottom: '1px solid var(--border)', minHeight: '52px' }}>
+                <div style={{ display: 'flex', gap: '16px', flex: 1 }}>
+                    {isOwner && (
+                        <>
+                            <button onClick={() => onEdit(blog)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-main)', fontSize: '1.2rem' }} title="Edit Blog">
+                                <FaEdit />
+                            </button>
+                            <button onClick={() => onUpload(blog)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-main)', fontSize: '1.2rem' }} title="Upload Images">
+                                <FaCamera />
+                            </button>
+                        </>
+                    )}
                 </div>
-            )}
+
+                <button
+                    className="btn btn-primary"
+                    onClick={() => navigate('/booking', { state: { blog } })}
+                    style={{ padding: '8px 16px', fontSize: '0.85rem', fontWeight: '600' }}
+                >
+                    Make my trip
+                </button>
+
+                <div style={{ display: 'flex', justifyContent: 'flex-end', flex: 1 }}>
+                    {isOwner && (
+                        <button onClick={() => onDelete(blog)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--primary)', fontSize: '1.2rem' }} title="Delete Blog">
+                            <FaTrash />
+                        </button>
+                    )}
+                </div>
+            </div>
 
             {/* Content */}
             <div style={{ padding: '12px 16px' }}>
