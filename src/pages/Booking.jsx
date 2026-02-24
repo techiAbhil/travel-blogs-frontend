@@ -7,22 +7,17 @@ const getRazorpayOptions = (order) => ({
 	key: import.meta.env.VITE_RAZORPAY_KEY_ID, // Replace with your Razorpay key_id
 	amount: order.amount,
 	currency: order.currency,
-	name: 'Geneka',
+	name: 'WWE',
 	description: 'Test Transaction',
 	order_id: order.order_id, // This is the order_id created in the backend
-	callback_url: `${import.meta.env.VITE_API_URL}app/verify`, // Your success URL
 	prefill: {
-		name: 'Bharat Mandlik',
-		email: 'bharat@gmail.com',
+		name: 'John Cena',
+		email: 'John@cena.com',
 		contact: '9999999999',
 	},
 	theme: {
 		color: '#F37254',
 	},
-	// handler: function (response) {
-	// 	console.log(response);
-	// 	alert('Payment was successful');
-	// },
 });
 
 const Booking = () => {
@@ -55,7 +50,7 @@ const Booking = () => {
 				const razorpayOptions = getRazorpayOptions(data.orderDetails);
 				razorpayOptions.handler = paymentVerify;
 				const paymentObject = new window.Razorpay(razorpayOptions);
-				return paymentObject.open();
+				return paymentObject.open(); //window
 			}
 			alert('failed to create an order');
 		} catch (e) {
